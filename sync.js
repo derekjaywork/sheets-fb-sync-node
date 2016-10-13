@@ -26,7 +26,7 @@ console.log("Init FB1");
 
 firebase.initializeApp({
   serviceAccount: "fb_server_credential.json",
-  databaseURL: "https://google-com-gstor.firebaseio.com"
+  databaseURL: "https://{YOUR_FB_DATABASE_NAME}.firebaseio.com"
 });
 
 //FB reference
