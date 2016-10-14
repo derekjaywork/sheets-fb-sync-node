@@ -22,11 +22,11 @@ var service = google.drive('v3');
 var sheets = google.sheets('v4');
 
 // Init FB
-console.log("Init FB1");
+console.log("Init FB");
 
 firebase.initializeApp({
   serviceAccount: "fb_server_credential.json",
-  databaseURL: "https://{YOUR_FB_DATABASE_NAME}.firebaseio.com"
+  databaseURL: "https://YOUR_FB_DATABASE_NAME.firebaseio.com"
 });
 
 //FB reference
@@ -168,7 +168,7 @@ function retrieveChanges(pgToken, auth) {
             cRes.changes.forEach(function (item) {
                 console.log("--------------", item.file);
                 if (!item.removed) {
-                    if (item.file.mimeType === SHEET_MIME && item.file.name === "LG-DLR") { //regex will be used to determine..
+                    if (item.file.mimeType === SHEET_MIME && item.file.name === "SHEET_NAME") { //regex will be used to determine the file name
                         fileId = item.fileId;
                         console.log(num + ". File ID : " + fileId);
                         console.log(num + ". File name : " + item.file.name); // do some regex filtering later to get device lineup
@@ -181,7 +181,7 @@ function retrieveChanges(pgToken, auth) {
                 storePgToken(cRes.newStartPageToken);
             }
             if (cRes.nextPageToken) {
-                retrieveChanges(cRes.nextPageToken, auth); //to be implemented but pageSize = 1000.. no worries?
+                retrieveChanges(cRes.nextPageToken, auth); //recur if nextPageToken is present
             }
         }
     });
@@ -232,13 +232,14 @@ function getSheetVal(auth, fileId) {
                 }
                 
                 console.log("Ojbect-----------", obj);
-                dlrRef.child('LG').child(devModNum).set(obj);
+                dlrRef.child('TEST').child(devModNum).set(obj);
             }
-            //set 'LG' manually.. determin this child name from parnter name
+            //set 'TEST' manually.. determin this child name from parnter name
         }
     });
 }
 
+//for storing page token to a file
 function storePgToken(pgToken) {
     try {
         fs.mkdirSync(PG_TOKEN_DIR);
